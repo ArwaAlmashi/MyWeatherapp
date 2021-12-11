@@ -1,3 +1,3 @@
 package com.example.myweatherapp.recyclerview
 
-class WeatherData (val title: String, val amount: String, val image: Int)
+class WeatherData (val title: String, var amount: String, val image: Int)

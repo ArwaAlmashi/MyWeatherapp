@@ -32,6 +32,7 @@ class RVAdapter(private var weatherDataItems: ArrayList<WeatherData>) :
 
     // Set
     @SuppressLint("NotifyDataSetChanged")
+
     fun setToWeatherItem(weatherDataItems: java.util.ArrayList<WeatherData>) {
         this.weatherDataItems = weatherDataItems
         notifyDataSetChanged()
