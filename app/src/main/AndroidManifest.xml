@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWeatherApp">
         <activity
+            android:name="errorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ZipSearching"
             android:exported="false" />
         <activity

@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/work_sans_r"
         android:gravity="center"
-        android:text="Mecca, UA"
+        android:text=""
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="35sp"

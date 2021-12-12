@@ -1,6 +1,7 @@
 package com.example.myweatherapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import com.example.myweatherapp.model.WeatherModel
 import com.example.myweatherapp.recyclerview.RVAdapter
 import com.example.myweatherapp.recyclerview.WeatherData
 import com.example.myweatherapp.services.APIInterface
+import com.example.myweatherapp.errorActivity
 import okhttp3.internal.notify
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,7 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         // Refresh
         binding.refreshButton.setOnClickListener {
-            getAllData()
+            val intent = Intent(this, ZipSearching::class.java)
+            startActivity(intent)
         }
 
 
@@ -75,6 +78,13 @@ class MainActivity : AppCompatActivity() {
         val date = Date(time.toLong())
         val format = SimpleDateFormat("HH:mm")
         return format.format(date)
+    }
+
+    // Current Date
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+        return "Last updated: ${sdf.format(Date())}"
     }
 
     // API Request
@@ -106,19 +116,26 @@ class MainActivity : AppCompatActivity() {
                             "High: ${weatherModel.main.temp_max.toInt()}°C"
 
                         // Recyclerview items
-                        weatherDataItems[0].amount = "${convertIntToTime(weatherModel.sys.sunrise)} AM"
-                        weatherDataItems[1].amount = "${convertIntToTime(weatherModel.sys.sunset)} PM"
+                        weatherDataItems[0].amount =
+                            "${convertIntToTime(weatherModel.sys.sunrise)} AM"
+                        weatherDataItems[1].amount =
+                            "${convertIntToTime(weatherModel.sys.sunset)} PM"
                         weatherDataItems[2].amount = "${weatherModel.main.humidity}"
                         weatherDataItems[3].amount = "${weatherModel.wind.speed}"
                         weatherDataItems[4].amount = "${weatherModel.main.pressure}"
 
                         recyclerView.adapter?.notifyDataSetChanged()
 
+                        binding.lastUpdated.text = getCurrentDate()
+
 
                     }
 
                 } catch (ex: Exception) {
                     Log.d("MainActivity", "Error: ${ex.message}")
+                    val intent = Intent(this@MainActivity, errorActivity::class.java)
+                    startActivity(intent)
+
                 }
             }
 
@@ -130,38 +147,3 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-
-
-//    private fun requestAPI() {
-//        CoroutineScope(IO).launch {
-//            val data = async{ fetchData() }.await()
-//            if (data.isNotEmpty()) {
-//                populateRV(data)
-//            } else {
-//                Toast.makeText(this@MainActivity, "Noy found data", Toast.LENGTH_LONG)
-//            }
-//        }
-//    }
-//
-//    private fun fetchData(): String {
-//        var response = ""
-//        try {
-//            response = URL("https://api.openweathermap.org/data/2.5/weather?zip=47860,us&units=metric&appid=77a8635cea42b2086348c958c171f78a").readText()
-//        } catch (ex: Exception) {
-//            Toast.makeText(this, "Error: ${ex.message}", Toast.LENGTH_LONG).show()
-//        }
-//        return response
-//    }
-//
-//    private suspend fun populateRV(result: String) {
-//        val jsonObjects = JSONObject(result)
-//        //val weather = jsonObjects.getJSONArray("weather")
-//        val weather = jsonObjects.getJSONArray("weather")[0]
-//
-//
-//        Log.d("MainActivity", "${weather}")
-//
-//        runOnUiThread {
-//
-//        }
-//    }

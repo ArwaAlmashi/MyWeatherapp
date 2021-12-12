@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MyWeather app</string>
     <string name="refresh">Refresh</string>
+    <string name="search">SEARCH</string>
+    <string name="enter_your_zip_code">Enter your Zip code</string>
+    <string name="something_went_wrong">Something Went Wrong!</string>
+    <string name="retry">RETRY</string>
 </resources>
